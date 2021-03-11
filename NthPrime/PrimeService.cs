@@ -17,7 +17,7 @@ namespace NthPrime
             return task.Request.Location.IsUrl(new[] { "n-th-prime" });
         }
 
-        private ulong? GetN(HttpPost post)
+        private static ulong? GetN(HttpPost post)
         {
             switch (post.Data)
             {
@@ -44,7 +44,7 @@ namespace NthPrime
             return null;
         }
 
-        private async Task<(string text, bool success)> CalcN(ulong? n)
+        private static async Task<(string text, bool success)> CalcN(ulong? n)
         {
             if (n == null)
                 return ("\"invalid input\"", false);

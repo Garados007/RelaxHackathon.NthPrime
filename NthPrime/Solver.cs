@@ -12,7 +12,7 @@ namespace NthPrime
         readonly int minJobs = 1_000;
 
         // https://math.stackexchange.com/a/1259
-        private static ulong UpperBound(ulong number)
+        public static ulong UpperBound(ulong number)
         {
             if (number < 6)
                 return 13;
@@ -78,7 +78,7 @@ namespace NthPrime
             }
         }
 
-        private ReadOnlyMemory<ulong> FilterPrimes(ReadOnlySpan<ulong> possiblePrimes)
+        private static ReadOnlyMemory<ulong> FilterPrimes(ReadOnlySpan<ulong> possiblePrimes)
         {
             Memory<ulong> buffer = new ulong[possiblePrimes.Length];
             int filled = 0;
@@ -156,7 +156,6 @@ namespace NthPrime
         {
             for (int i = 0; i < numbers.Length; ++i)
             {
-                var number = numbers.Span[i];
                 Sieve(startIndex, endIndex, numbers.Span[i]);
             }
         }
