@@ -24,7 +24,7 @@ $ curl http://localhost:8080/n-th-prime -d "n=200"
 
 To use a local file you need to call the docker container with:
 ```bash
-docker run -v $(pwd):/app -it hackathon-example /app/testinstance.json
+docker run -v $(pwd):/app -it hackathon-example testinstance.json
 ```
 
 ## Api
