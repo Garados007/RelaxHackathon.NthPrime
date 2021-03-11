@@ -28,8 +28,9 @@ namespace NthPrime
                 // init server
                 var server = new Server(new WebServerSettings(8001, 5000));
                 server.InitialDefault(); // init with default service collection
-                // add our own server
+                // add our own services
                 server.AddWebService(new PrimeService());
+                server.AddWebService(new Swagger());
                 // start
                 server.Start();
 

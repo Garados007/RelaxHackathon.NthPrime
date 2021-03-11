@@ -1,0 +1,120 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "version" : "1.0.0",
+    "title" : "Relaxdays Hackathon Example ",
+    "termsOfService" : "http://swagger.io/terms/",
+    "license" : {
+      "url" : "https://github.com/Garados007/RelaxHackathon.NthPrime/blob/main/LICENSE",
+      "name" : "MIT"
+    },
+    "description" : "This is the swagger api.\n\nhttps://github.com/Garados007/RelaxHackathon.NthPrime"
+  },
+  "servers" : [ {
+    "description" : "SwaggerHub API Auto Mocking",
+    "url" : "https://virtserver.swaggerhub.com/Garados007/Relaxday-Hackathon-Example-49/1.0.0"
+  }, {
+    "url" : "http://localhost/"
+  } ],
+  "paths" : {
+    "/n-th-prime/" : {
+      "get" : {
+        "summary" : "returns the n-th prime",
+        "parameters" : [ {
+          "name" : "n",
+          "in" : "query",
+          "required" : true,
+          "description" : "the number n",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 1,
+            "example" : 200
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "oneOf" : [ {
+                    "type" : "integer"
+                  }, {
+                    "type" : "string"
+                  } ],
+                  "example" : 1223
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "returns the n-th prime",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/x-www-form-urlencoded" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "n" : {
+                    "description" : "the value n",
+                    "type" : "integer",
+                    "minimum" : 1,
+                    "example" : 200
+                  }
+                }
+              }
+            },
+            "multipart/form-data" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "n" : {
+                    "description" : "the value n",
+                    "type" : "integer",
+                    "minimum" : 1,
+                    "example" : 200
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "oneOf" : [ {
+                    "type" : "integer"
+                  }, {
+                    "type" : "string"
+                  } ],
+                  "example" : 1223
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "requestBodies" : { },
+    "securitySchemes" : { },
+    "schemas" : {
+      "n-th-prime" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      }
+    }
+  }
+}
