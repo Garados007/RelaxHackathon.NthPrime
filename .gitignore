@@ -1,3 +1,7 @@
 # build files
 bin
 obj
+# dev env files
+.vscode
+.vs
+
