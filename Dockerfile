@@ -1,6 +1,3 @@
-# This is a sample Dockerfile with a couple of problems.
-# Paste your Dockerfile here.
-
 FROM ubuntu:latest
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends wget ca-certificates && \
