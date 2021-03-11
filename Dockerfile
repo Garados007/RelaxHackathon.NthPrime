@@ -13,6 +13,8 @@ RUN apt-get update -y && \
 WORKDIR /usr/src/RelaxHackathon.NthPrime
 COPY . /usr/src/RelaxHackathon.NthPrime
 
-RUN dotnet restore && dotnet build && chmod +x NthPrime/bin/Debug/net5.0/NthPrime
+RUN dotnet restore && \
+    dotnet build -c Release && \
+    chmod +x NthPrime/bin/Release/net5.0/NthPrime
 
-CMD [ "/usr/src/RelaxHackathon.NthPrime/NthPrime/bin/Debug/net5.0/NthPrime" ]
+CMD [ "/usr/src/RelaxHackathon.NthPrime/NthPrime/bin/Release/net5.0/NthPrime" ]
