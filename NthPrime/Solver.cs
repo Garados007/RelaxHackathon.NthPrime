@@ -39,8 +39,8 @@ namespace NthPrime
                 return null;
             ulong index = 1;
             var upperBound = UpperBound(n);
-            if (upperBound > int.MaxValue)
-                throw new ArgumentOutOfRangeException();
+            if (upperBound >= int.MaxValue)
+                return null;
             var solver = new Solver((int)upperBound);
             await foreach (var prime in solver.GetPrimesAsync().ConfigureAwait(false))
             {
