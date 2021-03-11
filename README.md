@@ -12,9 +12,15 @@ You can get a running version of this code by using:
 git clone https://github.com/Garados007/RelaxHackathon.NthPrime.git
 cd hackathon-example-submission
 docker build -t hackathon-example .
-docker run -v .:/app -p 8080:80 -it hackathon-example
+docker run -v .:/app -p 8080:8001 -it hackathon-example
 ```
 If you now access http://localhost:8080/ you should see the thing you want to review.
+
+For example:
+```bash
+$ curl http://localhost:8080/n-th-prime -d "n=200"
+1223
+```
 
 ## Api
 
