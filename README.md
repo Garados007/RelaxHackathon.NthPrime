@@ -16,3 +16,8 @@ docker run -v .:/app -p 8080:80 -it hackathon-example
 ```
 If you now access http://localhost:8080/ you should see the thing you want to review.
 
+## Api
+
+The swagger api is accessible here:
+- [SwaggerHub](https://app.swaggerhub.com/apis/Garados007/Relaxday-Hackathon-Example-49/1.0.0)
+- [git](swagger-api.yaml)
