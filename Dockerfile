@@ -17,4 +17,6 @@ RUN dotnet restore && \
     dotnet build -c Release && \
     chmod +x NthPrime/bin/Release/net5.0/NthPrime
 
+WORKDIR /app
+
 ENTRYPOINT [ "/usr/src/RelaxHackathon.NthPrime/NthPrime/bin/Release/net5.0/NthPrime" ]
