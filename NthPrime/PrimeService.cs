@@ -44,12 +44,12 @@ namespace NthPrime
             return null;
         }
 
-        private async Task<string> CalcN(ulong? n)
+        private async Task<(string text, bool success)> CalcN(ulong? n)
         {
             if (n == null)
-                return "\"invalid input\"";
+                return ("\"invalid input\"", false);
             var prime = await Solver.GetNthPrimeAsync(n.Value).ConfigureAwait(false);
-            return prime == null ? "\"error\"" : prime.Value.ToString();
+            return prime == null ? ("\"error\"", false) : (prime.Value.ToString(), true);
         }
 
         public override async Task ProgressTask(WebProgressTask task)
@@ -61,12 +61,15 @@ namespace NthPrime
                     ulong.TryParse(svalue, out ulong value) ? value : null,
                 _ => null,
             };
-            var result = await CalcN(n).ConfigureAwait(false);
+            var (result, success) = await CalcN(n).ConfigureAwait(false);
 
             task.Document.DataSources.Add(new HttpStringDataSource(result)
             {
                 MimeType = MimeType.ApplicationJson
             });
+
+            if (!success)
+                task.Response.StatusCode = HttpStateCode.BadRequest;
         }
     }
 }

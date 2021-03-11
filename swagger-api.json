@@ -36,24 +36,22 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "string"
-                    }
-                  ],
-                  "example": 1223
-                }
-              }
-            }
+            "$ref": "#/components/responses/n-th-prime-200-response"
+          },
+          "400": {
+            "$ref": "#/components/responses/n-th-prime-400-response"
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "source": "curl http://localhost:8080/n-th-prime?n=200"
+          },
+          {
+            "lang": "C#",
+            "source": "var request = 200;\nvar webClient = new System.Net.WebClient();\nvar responseCode = await webClient.DownloadStringTaskAsync(\n    $\"http://localhost:8080/n-th-prime?n={request}\"\n).ConfigureAwait(false);\nConsole.WriteLine(\n    $\"{request}-th prime is {responseCode}.\"\n);"
+          }
+        ]
       },
       "post": {
         "summary": "returns the n-th prime",
@@ -62,67 +60,75 @@
           "content": {
             "application/x-www-form-urlencoded": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "n": {
-                    "description": "the value n",
-                    "type": "integer",
-                    "minimum": 1,
-                    "example": 200
-                  }
-                }
+                "$ref": "#/components/schemas/n-th-prime-request-entry"
               }
             },
             "multipart/form-data": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "n": {
-                    "description": "the value n",
-                    "type": "integer",
-                    "minimum": 1,
-                    "example": 200
-                  }
-                }
+                "$ref": "#/components/schemas/n-th-prime-request-entry"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "string"
-                    }
-                  ],
-                  "example": 1223
-                }
-              }
-            }
+            "$ref": "#/components/responses/n-th-prime-200-response"
+          },
+          "400": {
+            "$ref": "#/components/responses/n-th-prime-400-response"
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "source": "curl http://localhost:8080/n-th-prime/ -d \"n=200\""
+          },
+          {
+            "lang": "C#",
+            "source": "var request = 200;\nvar webClient = new System.Net.WebClient();\nwebClient.Headers.Add(\n    System.Net.HttpRequestHeader.ContentType,\n    \"application/x-www-form-urlencoded\"\n);\nvar responseCode = await webClient.UploadStringTaskAsync(\n    \"http://localhost:8080/n-th-prime\",\n    $\"n={request}\"\n).ConfigureAwait(false);\nConsole.WriteLine(\n    $\"{request}-th prime is {responseCode}.\"\n);"
+          }
+        ]
       }
     }
   },
   "components": {
-    "requestBodies": {},
-    "securitySchemes": {},
-    "schemas": {
-      "n-th-prime": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
+    "responses": {
+      "n-th-prime-200-response": {
+        "description": "OK",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "integer",
+              "example": 1223
+            }
           }
         }
+      },
+      "n-th-prime-400-response": {
+        "description": "Input is not a number or out of range",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "string",
+              "example": "invalid input"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {},
+    "schemas": {
+      "n-th-prime-request-entry": {
+        "type": "object",
+        "properties": {
+          "n": {
+            "description": "the value n",
+            "type": "integer",
+            "minimum": 1,
+            "example": 200
+          }
+        },
+        "required": [ "n" ]
       }
     }
   }
