@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using MaxLib.WebServer;
 
 namespace NthPrime
 {
@@ -24,7 +25,18 @@ namespace NthPrime
             }
             else
             {
-                
+                // init server
+                var server = new Server(new WebServerSettings(8001, 5000));
+                server.InitialDefault(); // init with default service collection
+                // add our own server
+                server.AddWebService(new PrimeService());
+                // start
+                server.Start();
+
+                Console.WriteLine("Server is running");
+
+                // wait for exit
+                await Task.Delay(-1);
             }
         }
 
