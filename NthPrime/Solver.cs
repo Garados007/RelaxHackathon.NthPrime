@@ -54,10 +54,13 @@ namespace NthPrime
         {
             int startIndex = 0;
             ulong lastHighestPrime = 0;
-            while (startIndex < fullSieve.Length)
+            // get the index of sqrt of the maximum possible number inside fullSieve
+            var upperSieveBound = (int)((ulong)Math.Sqrt((ulong)fullSieve.Length << 5) >> 5);
+            while (startIndex <= upperSieveBound)
             {
                 const int maxPrimes = 100;
 
+                // get next possible primes. (some are multiples of others in this list)
                 var possiblePrimes = NextPossiblePrimes(ref startIndex, maxPrimes);
                 if (possiblePrimes.Length == 0)
                     // no more primes found
@@ -73,9 +76,14 @@ namespace NthPrime
                     if (prime > lastHighestPrime)
                         yield return prime;
                 }
+                // fix start index. We only need to sieve after x² of the smallest prime
+                startIndex = (int)(possiblePrimes.Span[0] * possiblePrimes.Span[0] >> 5);
                 // sieve next primes
                 await SieveAllAsync(startIndex, possiblePrimes).ConfigureAwait(false);
             }
+            // the rest of the numbers are primes. Just return them
+            foreach (var prime in EnumeratePrimes(startIndex))
+                yield return prime;
         }
 
         private static ReadOnlyMemory<ulong> FilterPrimes(ReadOnlySpan<ulong> possiblePrimes)
@@ -99,6 +107,25 @@ namespace NthPrime
                 invalid_prime:;
             }
             return buffer[..filled];
+        }
+
+        private IEnumerable<ulong> EnumeratePrimes(int startIndex)
+        {
+            for (; startIndex < fullSieve.Length; ++startIndex)
+            {
+                // check if all bits are set. If so there is no prime in this range
+                var mask = fullSieve.Span[startIndex];
+                if (mask == uint.MaxValue)
+                    continue;
+                // check each bit if it is not set
+                for (int j = 0; j < 32; ++j)
+                {
+                    if ((mask & bitMask.Span[j]) != 0)
+                        continue;
+                    // a prime is found
+                    yield return ((ulong)startIndex << 5) + (ulong)j;
+                }
+            }
         }
 
         private ReadOnlyMemory<ulong> NextPossiblePrimes(ref int startIndex, int maxPrimes)
@@ -126,6 +153,13 @@ namespace NthPrime
             return buffer[..filled];
         }
 
+        /// <summary>
+        /// Sieve all numbers in <see cref="fullSieve"/> with all the given primes in 
+        /// <paramref name="numbers"/>.
+        /// </summary>
+        /// <param name="startIndex">Start index in <see cref="fullSieve"/> to start sieve</param>
+        /// <param name="numbers">the prime numbers to sieve in this iteration</param>
+        /// <returns>execution task</returns>
         private async Task SieveAllAsync(int startIndex, ReadOnlyMemory<ulong> numbers)
         {
             var jobs = (fullSieve.Length - startIndex) / maxTasks;
@@ -168,8 +202,11 @@ namespace NthPrime
         /// <param name="number">The number to sieve.</param>
         private void Sieve(int startIndex, int endIndex, ulong number)
         {
+            // get the lowest multiple in range
             var lowest = (ulong)Math.Floor((ulong)startIndex * 32 / (double)number);
+            // get the highest multiple in range
             var highest = (ulong)Math.Floor((ulong)endIndex * 32 / (double)number);
+            // loop all multiples in range
             for (ulong i = lowest; i < highest; ++i)
             {
                 var num = i * number;

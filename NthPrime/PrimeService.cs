@@ -70,6 +70,8 @@ namespace NthPrime
 
             if (!success)
                 task.Response.StatusCode = HttpStateCode.BadRequest;
+
+            _ = Task.Run(() => System.GC.Collect());
         }
     }
 }
