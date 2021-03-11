@@ -76,8 +76,6 @@ namespace NthPrime
                     if (prime > lastHighestPrime)
                         yield return prime;
                 }
-                // fix start index. We only need to sieve after x² of the smallest prime
-                startIndex = (int)(possiblePrimes.Span[0] * possiblePrimes.Span[0] >> 5);
                 // sieve next primes
                 await SieveAllAsync(startIndex, possiblePrimes).ConfigureAwait(false);
             }
