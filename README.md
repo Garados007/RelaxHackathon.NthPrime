@@ -1,5 +1,7 @@
 # RelaxHackathon.NthPrime
 
+> This project was part of a Hackathon and will no longer be maintained. If you think you can extend it feel free to create a fork.
+
 # hackathon-example-submission
 
 This project was created in the Relaxdays Code Challenge Vol. 1. See
